@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
       >
         <div className="flex h-screen">
           <Sidebar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 m-4 p-6 bg-black text-white rounded-xl shadow-lg">
+            {children}
+          </main>
         </div>
       </body>
     </html>
