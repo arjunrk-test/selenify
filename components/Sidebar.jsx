@@ -35,7 +35,7 @@ const Sidebar = () => {
 
   return (
     <div className="p-4 bg-transparent">
-      <div className="flex flex-col bg-black w-72 h-full text-white rounded-lg shadow-sm">
+      <div className="flex flex-col bg-black w-72 h-full text-white rounded-lg shadow-sm overflow-y-auto max-h-screen">
         {/* Sidebar Header */}
         <div className="flex items-center p-4 text-xl font-bold uppercase">
           <div className="p-2 rounded-xl mr-4 bg-accent text-black text-xl">
@@ -86,15 +86,14 @@ const Sidebar = () => {
 
                 {/* Submenu Links */}
                 {isOpen && link.submenu && (
-                  <div className="ml-8">
+                  <div className="ml-6 border-l-2 border-accent pl-3">
                     {link.submenu.map((subLink) => (
                       <Link key={subLink.name} href={subLink.path}>
                         <div
-                          className={`flex items-center gap-2 p-2 m-1 text-sm rounded-lg transition-all cursor-pointer ${
-                            pathname === subLink.path
+                          className={`flex items-center gap-2 p-2 m-1 text-sm rounded-lg transition-all cursor-pointer ${pathname === subLink.path
                               ? "bg-accent text-black"
-                              : "bg-transparent text-gray-300 hover:bg-accent hover:text-black"
-                          }`}
+                              : "bg-transparent text-white hover:bg-accent hover:text-black"
+                            }`}
                         >
                           <span className="capitalize">{subLink.name}</span>
                         </div>
@@ -102,6 +101,7 @@ const Sidebar = () => {
                     ))}
                   </div>
                 )}
+
               </div>
             );
           })}
