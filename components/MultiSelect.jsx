@@ -80,6 +80,7 @@ export const MultiSelect = React.forwardRef(
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
       setSelectedValues(newSelectedValues);
+      props.onChange?.(newSelectedValues);  // Trigger the callback
     };
 
     const handleClear = () => {
@@ -96,12 +97,9 @@ export const MultiSelect = React.forwardRef(
     };
 
     const toggleAll = () => {
-      if (selectedValues.length === options.length) {
-        handleClear();
-      } else {
-        const allValues = options.map((option) => option.value);
-        setSelectedValues(allValues);
-      }
+      const allValues = selectedValues.length === options.length ? [] : options.map((option) => option.value);
+      setSelectedValues(allValues);
+      props.onChange?.(allValues);  // Trigger the callback
     };
 
     return (
