@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${jetbrainsMono.variable} antialiased min-h-screen`}
       >
-        <div className="flex h-screen">
+        <div className="flex h-screen bg-white">
           <Sidebar />
           <main className="flex-1 m-4 p-6 bg-black text-white rounded-xl shadow-lg">
             {children}
