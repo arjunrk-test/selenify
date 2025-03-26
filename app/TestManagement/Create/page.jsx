@@ -54,7 +54,6 @@ const Create = () => {
             variant="ghost"
             className="text-green-500 transition-all duration-500"
             aria-label="Run Test"
-            onClick={handleRun} // 🔹 Now sends data to backend
           >
             <FaPlay />
           </Button>
@@ -62,6 +61,7 @@ const Create = () => {
             variant="ghost"
             className="text-purple-500 transition-all duration-200"
             aria-label="Save Test Case"
+            onClick={handleRun}
           >
             <FaSave />
           </Button>
