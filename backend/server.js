@@ -1,42 +1,40 @@
 const express = require("express");
-const { exec } = require("child_process");
 const fs = require("fs");
-const path = require("path");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
-app.post("/api/run-test", (req, res) => {
-  const { browsers } = req.body;
-  console.log("Received browsers:", browsers);
+const filePath = "./browsers.json";
 
-  // Update DataProvider.java with the selected browsers
-  const dataProviderPath = path.join(__dirname, "src/main/java/Baseclass/DataProvider.java");
-  const newContent = `
-    package com.selenify.backend.Baseclass;
+// Handle POST request
+app.post("/set-browsers", (req, res) => {
+    const newTest = req.body; // Get data from frontend
 
-    import org.testng.annotations.DataProvider;
+    console.log("Received data from frontend:", newTest); // Debug log
 
-    public class DataProvider {
-        @DataProvider(name = "browserData")
-        public Object[][] getBrowsers() {
-            return new Object[][] { ${browsers.map(browser => `{"${browser}"}`).join(", ")} };
+    try {
+        // Read existing file or initialize empty array if file doesn't exist
+        let existingData = [];
+        if (fs.existsSync(filePath)) {
+            const fileContent = fs.readFileSync(filePath, "utf8");
+            existingData = fileContent ? JSON.parse(fileContent) : [];
         }
-    }
-  `;
 
-  fs.writeFileSync(dataProviderPath, newContent);
-  console.log("DataProvider updated.");
+        // Add new test data
+        existingData.push(newTest);
 
-  // Run the test using Maven
-  exec("mvn clean test -DsuiteXmlFile=TESTNG.xml", (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing tests: ${stderr}`);
-      return res.status(500).json({ error: "Test execution failed" });
+        // Write updated data to file
+        fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2));
+
+        console.log("Updated browsers.json:", existingData); // Debug log
+        res.json({ message: "Data saved successfully" });
+    } catch (error) {
+        console.error("Error writing to file:", error);
+        res.status(500).json({ error: "Failed to save data" });
     }
-    console.log("Test execution successful:", stdout);
-    res.json({ message: "Test execution started" });
-  });
 });
 
-app.listen(3001, () => console.log("Backend running on port 3001"));
+// Start server
+app.listen(3001, () => console.log("Server running on port 3001"));

@@ -1,0 +1,21 @@
+[
+  {
+    "testname": "Testname1",
+    "browsers": [
+      "chrome"
+    ]
+  },
+  {
+    "testname": "jhbdjdhscbw",
+    "browsers": [
+      "chrome"
+    ]
+  },
+  {
+    "testname": "jhbdjdhscbw",
+    "browsers": [
+      "chrome",
+      "edge"
+    ]
+  }
+]
