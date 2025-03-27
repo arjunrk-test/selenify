@@ -12,36 +12,42 @@ const Create = () => {
 
   const handleRun = async () => {
     if (!testName.trim()) {
-      console.error("Test name is required");
+      alert("Test name is required");
       return;
     }
-    
+  
+    if (selectedBrowsers.length === 0) {
+      alert("Please select at least one browser.");
+      return;
+    }
+  
     const testData = {
       testname: testName,
       browsers: selectedBrowsers, // Example: ["chrome", "edge"]
     };
-
+  
     console.log("Sending data to backend:", testData);
-
+  
     try {
       const response = await fetch("http://localhost:3001/set-browsers", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(testData),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to save data");
-      }
-
+  
       const responseData = await response.json();
-      console.log("Response from backend:", responseData);
+  
+      if (!response.ok) {
+        alert(responseData.error); // Show error alert if test already exists
+      } else {
+        alert("Test saved successfully!");
+      }
     } catch (error) {
+      alert("Error saving test.");
       console.error("Error sending data:", error);
     }
   };
+  
 
   return (
     <div className="">

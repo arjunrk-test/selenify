@@ -22,6 +22,12 @@ app.post("/set-browsers", (req, res) => {
             existingData = fileContent ? JSON.parse(fileContent) : [];
         }
 
+        // Check if testname already exists
+        const testExists = existingData.some((test) => test.testname === newTest.testname);
+        if (testExists) {
+            return res.status(400).json({ error: "Test already exists" });
+        }
+
         // Add new test data
         existingData.push(newTest);
 
