@@ -1,6 +1,12 @@
 import { GrResources } from "react-icons/gr";
 import { IoHomeOutline } from "react-icons/io5";
 import { ClipboardList, PlayCircle, BarChart, Bolt, Info } from "lucide-react";
+import { FaChrome, FaEdge } from "react-icons/fa";
+
+export const Browsers = [
+  { value: "chrome", label: "Chrome", icon: FaChrome },
+  { value: "edge", label: "Edge", icon: FaEdge },
+];
 
 export const SideBarLinks = [
    {

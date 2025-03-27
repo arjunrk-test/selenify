@@ -36,7 +36,7 @@ const multiSelectVariants = cva(
           "border-foreground/10 bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        inverted: "inverted bg-accentDark text-black hover:bg-primary hover:text-accentDark transition-all duration-200",
+        inverted: "inverted bg-accent text-black hover:bg-black hover:text-accent transition-all duration-200",
       },
     },
     defaultVariants: {
@@ -53,7 +53,7 @@ export const MultiSelect = React.forwardRef(
       defaultValue = [],
       placeholder = "Select options",
       animation = 0,
-      maxCount = 1,
+      maxCount = 2,
       modalPopover = false,
       asChild = false,
       className,
@@ -80,6 +80,7 @@ export const MultiSelect = React.forwardRef(
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
       setSelectedValues(newSelectedValues);
+      props.onChange?.(newSelectedValues);  // Trigger the callback
     };
 
     const handleClear = () => {
@@ -96,12 +97,9 @@ export const MultiSelect = React.forwardRef(
     };
 
     const toggleAll = () => {
-      if (selectedValues.length === options.length) {
-        handleClear();
-      } else {
-        const allValues = options.map((option) => option.value);
-        setSelectedValues(allValues);
-      }
+      const allValues = selectedValues.length === options.length ? [] : options.map((option) => option.value);
+      setSelectedValues(allValues);
+      props.onChange?.(allValues);  // Trigger the callback
     };
 
     return (
@@ -199,14 +197,14 @@ export const MultiSelect = React.forwardRef(
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
-          <Command className="bg-black text-white">
+          <Command className="bg-input text-white">
             <CommandInput
               placeholder="Search..."
               onKeyDown={handleInputKeyDown}
               
             />
             <CommandList>
-              <CommandEmpty className="bg-black text-white pl-2">No results found.</CommandEmpty>
+              <CommandEmpty className="bg-input text-white pl-2 text-md">No results found.</CommandEmpty>
               <CommandGroup>
                 <CommandItem  key="all" onSelect={toggleAll} className="cursor-pointer" >
                   <div
