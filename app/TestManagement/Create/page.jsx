@@ -5,25 +5,27 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Browsers } from "@/app/Constants";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast"
 
 const Create = () => {
   const [testName, setTestName] = useState(""); // Store test name
   const [selectedBrowsers, setSelectedBrowsers] = useState([]);
+  const { toast } = useToast();
 
-  const handleRun = async () => {
+  const handleSave = async () => {
     if (!testName.trim()) {
-      alert("Test name is required");
+      toast({ variant: "destructive", title: "Error", description: "Test name is required" });
       return;
     }
   
     if (selectedBrowsers.length === 0) {
-      alert("Please select at least one browser.");
+      toast({ variant: "warning", title: "Warning", description: "Select at least one browser" });
       return;
     }
   
     const testData = {
       testname: testName,
-      browsers: selectedBrowsers, // Example: ["chrome", "edge"]
+      browsers: selectedBrowsers,
     };
   
     console.log("Sending data to backend:", testData);
@@ -38,12 +40,12 @@ const Create = () => {
       const responseData = await response.json();
   
       if (!response.ok) {
-        alert(responseData.error); // Show error alert if test already exists
+        toast({ variant: "destructive", title: "Error", description: responseData.error });
       } else {
-        alert("Test saved successfully!");
+        toast({ variant: "success", title: "Success", description: "Test saved successfully!" });
       }
     } catch (error) {
-      alert("Error saving test.");
+      toast({ variant: "destructive", title: "Error", description: "Failed to save test." });
       console.error("Error sending data:", error);
     }
   };
@@ -67,7 +69,7 @@ const Create = () => {
             variant="ghost"
             className="text-purple-500 transition-all duration-200"
             aria-label="Save Test Case"
-            onClick={handleRun}
+            onClick={handleSave}
           >
             <FaSave />
           </Button>

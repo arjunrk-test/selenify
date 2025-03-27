@@ -1,6 +1,7 @@
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "../components/Sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
           <main className="flex-1 m-4 p-6 bg-black text-white rounded-xl shadow-lg">
             {children}
+            <Toaster />
           </main>
         </div>
       </body>
